@@ -1,105 +1,131 @@
 <div align="center">
-  <img src="./Icon/40edeba4-756b-4440-9738-f15ffe394768.png" alt="Quranku Adzan CDN" width="128">
+  <img src="./Icon/40edeba4-756b-4440-9738-f15ffe394768.png" alt="Quranku Adzan CDN" width="132">
 
   <h1>Quranku Adzan CDN</h1>
 
   <p>
-    CDN aset audio adzan dan ikon resmi untuk integrasi
-    <strong>Quranku API</strong>.
+    Asset delivery layer for <strong>Quranku API</strong>, built to serve
+    adzan audio and application icons through a fast public CDN.
   </p>
 
   <p>
-    <a href="https://quranku.apirizz.my.id"><strong>Quranku API</strong></a>
-    &middot;
-    <a href="https://github.com/QurankuCDN/adzan">Repository</a>
-    &middot;
-    <a href="#daftar-aset">Daftar Aset</a>
+    <a href="https://quranku.apirizz.my.id"><strong>Live API</strong></a>
+    &nbsp;|&nbsp;
+    <a href="https://github.com/QurankuCDN/adzan"><strong>GitHub Repository</strong></a>
+    &nbsp;|&nbsp;
+    <a href="#asset-catalog"><strong>Asset Catalog</strong></a>
   </p>
 
   <p>
-    <img alt="CDN jsDelivr" src="https://img.shields.io/badge/CDN-jsDelivr-ff5627?style=flat-square">
-    <img alt="Asset Type" src="https://img.shields.io/badge/assets-MP3%20%7C%20PNG%20%7C%20ICO-0f766e?style=flat-square">
-    <img alt="Repository" src="https://img.shields.io/badge/repository-static%20cdn-2563eb?style=flat-square">
+    <img alt="CDN" src="https://img.shields.io/badge/CDN-jsDelivr-f97316?style=for-the-badge">
+    <img alt="Audio" src="https://img.shields.io/badge/audio-MP3-0f766e?style=for-the-badge">
+    <img alt="Icons" src="https://img.shields.io/badge/icons-PNG%20%7C%20ICO-2563eb?style=for-the-badge">
+    <img alt="Repository" src="https://img.shields.io/badge/type-static%20assets-111827?style=for-the-badge">
   </p>
 </div>
 
 ---
 
-## Overview
+## Purpose
 
-Repository ini menyimpan aset statis yang dipakai oleh
-[Quranku API](https://quranku.apirizz.my.id), khususnya file audio adzan untuk
-jadwal shalat dan ikon aplikasi. Aset dibuat mudah diakses melalui CDN agar
-client tidak perlu mengambil file langsung dari server API utama.
+**Quranku Adzan CDN** adalah repository aset statis untuk mendukung
+[Quranku API](https://quranku.apirizz.my.id). Repository ini memisahkan file
+audio dan ikon dari server API utama agar response API tetap ringan, konsisten,
+dan mudah digunakan oleh client web maupun mobile.
 
-## Base URL
+## Delivery Endpoints
 
-Gunakan jsDelivr sebagai endpoint utama untuk distribusi aset:
+| Channel | Base URL | Usage |
+| --- | --- | --- |
+| Primary CDN | `https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/` | Recommended untuk aplikasi production |
+| GitHub Raw | `https://raw.githubusercontent.com/QurankuCDN/adzan/main/` | Fallback langsung dari repository |
+| Repository | `https://github.com/QurankuCDN/adzan` | Source of truth aset CDN |
+
+### Quick Copy
 
 ```text
 https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/
 ```
 
-Fallback GitHub raw:
-
-```text
-https://raw.githubusercontent.com/QurankuCDN/adzan/main/
-```
-
-## Quick Start
-
-Contoh URL audio:
+Audio example:
 
 ```text
 https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3
 ```
 
-Contoh URL ikon:
+Icon example:
 
 ```text
 https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Icon/40edeba4-756b-4440-9738-f15ffe394768.png
 ```
 
-Contoh response dari API:
+## Integration Contract
+
+Quranku API dapat mengembalikan URL CDN penuh pada response agar client bisa
+langsung memutar audio tanpa membangun path secara manual.
 
 ```json
 {
+  "id": "adzan-arab",
   "name": "Adzan Arab",
-  "category": "4 Waktu",
-  "audio": "https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3"
+  "category": "4-waktu",
+  "mime": "audio/mpeg",
+  "source": "quranku-cdn",
+  "url": "https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3"
 }
 ```
 
-## Daftar Aset
+### HTML Audio
 
-### Audio Adzan 4 Waktu
+```html
+<audio controls preload="metadata">
+  <source
+    src="https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3"
+    type="audio/mpeg"
+  >
+</audio>
+```
 
-| Nama | Path | CDN |
+### JavaScript
+
+```js
+const adzanAudio = new Audio(
+  "https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3"
+);
+
+await adzanAudio.play();
+```
+
+## Asset Catalog
+
+### Audio: 4 Waktu
+
+| Asset | Path | CDN |
 | --- | --- | --- |
-| ADZAN BAYYATI HUSAINI | `4 Waktu/ADZAN BAYYATI HUSAINI.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/ADZAN%20BAYYATI%20HUSAINI.mp3) |
-| AZAN ASJAL RUWHI | `4 Waktu/AZAN ASJAL RUWHI.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/AZAN%20ASJAL%20RUWHI.mp3) |
-| Adzan Arab | `4 Waktu/Adzan Arab.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3) |
-| Adzan Nahawand | `4 Waktu/Adzan Nahawand.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Nahawand.mp3) |
-| Adzan Rast | `4 Waktu/Adzan Rast.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Rast.mp3) |
-| Azan Jiharkah Abdulkarim Almakki | `4 Waktu/Azan jiharkah Abdulkarim Almakki.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Azan%20jiharkah%20Abdulkarim%20Almakki.mp3) |
-| Makkah Maghri | `4 Waktu/Makkah Maghri.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Makkah%20Maghri.mp3) |
+| ADZAN BAYYATI HUSAINI | `4 Waktu/ADZAN BAYYATI HUSAINI.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/ADZAN%20BAYYATI%20HUSAINI.mp3) |
+| AZAN ASJAL RUWHI | `4 Waktu/AZAN ASJAL RUWHI.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/AZAN%20ASJAL%20RUWHI.mp3) |
+| Adzan Arab | `4 Waktu/Adzan Arab.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3) |
+| Adzan Nahawand | `4 Waktu/Adzan Nahawand.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Nahawand.mp3) |
+| Adzan Rast | `4 Waktu/Adzan Rast.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Rast.mp3) |
+| Azan Jiharkah Abdulkarim Almakki | `4 Waktu/Azan jiharkah Abdulkarim Almakki.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Azan%20jiharkah%20Abdulkarim%20Almakki.mp3) |
+| Makkah Maghri | `4 Waktu/Makkah Maghri.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Makkah%20Maghri.mp3) |
 
-### Audio Adzan Subuh
+### Audio: Subuh
 
-| Nama | Path | CDN |
+| Asset | Path | CDN |
 | --- | --- | --- |
-| AZAN SUBUH JIHARKAH | `Subuh/AZAN SUBUH JIHARKAH.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Subuh/AZAN%20SUBUH%20JIHARKAH.mp3) |
-| Adzan Subuh Nahawand | `Subuh/Adzan Subuh Nahawand .mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Subuh/Adzan%20Subuh%20Nahawand%20.mp3) |
-| Azan by Mishary Rashid Al Afasy | `Subuh/Azan by Mishary Rashid Al Afasy.mp3` | [Play](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Subuh/Azan%20by%20Mishary%20Rashid%20Al%20Afasy.mp3) |
+| AZAN SUBUH JIHARKAH | `Subuh/AZAN SUBUH JIHARKAH.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Subuh/AZAN%20SUBUH%20JIHARKAH.mp3) |
+| Adzan Subuh Nahawand | `Subuh/Adzan Subuh Nahawand .mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Subuh/Adzan%20Subuh%20Nahawand%20.mp3) |
+| Azan by Mishary Rashid Al Afasy | `Subuh/Azan by Mishary Rashid Al Afasy.mp3` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Subuh/Azan%20by%20Mishary%20Rashid%20Al%20Afasy.mp3) |
 
-### Ikon
+### Brand Assets
 
-| Nama | Path | CDN |
+| Asset | Path | CDN |
 | --- | --- | --- |
-| Quranku Icon PNG | `Icon/40edeba4-756b-4440-9738-f15ffe394768.png` | [View](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Icon/40edeba4-756b-4440-9738-f15ffe394768.png) |
-| Favicon | `Icon/favicon.ico` | [View](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Icon/favicon.ico) |
+| Quranku Icon | `Icon/40edeba4-756b-4440-9738-f15ffe394768.png` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Icon/40edeba4-756b-4440-9738-f15ffe394768.png) |
+| Favicon | `Icon/favicon.ico` | [Open](https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/Icon/favicon.ico) |
 
-## Struktur Repository
+## Repository Map
 
 ```text
 .
@@ -121,33 +147,38 @@ Contoh response dari API:
 `-- README.md
 ```
 
-## Integrasi API
+## Operational Notes
 
-Saat mengirim data adzan dari Quranku API, simpan URL CDN penuh di field audio
-agar client dapat memutar file langsung:
+| Topic | Standard |
+| --- | --- |
+| URL stability | Jangan rename folder atau file tanpa update API consumer |
+| Encoding | Gunakan `%20` untuk spasi pada URL publik |
+| Cache | Gunakan `@main` untuk latest asset atau tag release untuk versi stabil |
+| File size | Jaga file tunggal di bawah batas GitHub biasa, maksimal 100 MB |
+| Updates | Setiap perubahan aset harus disertai update katalog README |
+
+## Recommended API Shape
 
 ```json
 {
-  "id": "adzan-arab",
-  "label": "Adzan Arab",
-  "type": "regular",
-  "source": "cdn",
-  "url": "https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/4%20Waktu/Adzan%20Arab.mp3"
+  "cdn": {
+    "provider": "jsdelivr",
+    "baseUrl": "https://cdn.jsdelivr.net/gh/QurankuCDN/adzan@main/"
+  },
+  "assets": {
+    "regular": "4 Waktu/Adzan Arab.mp3",
+    "subuh": "Subuh/AZAN SUBUH JIHARKAH.mp3",
+    "icon": "Icon/40edeba4-756b-4440-9738-f15ffe394768.png"
+  }
 }
 ```
-
-## Maintenance
-
-- Pertahankan nama file dan folder karena path digunakan sebagai URL publik.
-- Encode spasi sebagai `%20` saat path dipakai di URL.
-- Update README setiap ada aset baru, rename, atau penghapusan file.
-- Hindari file tunggal di atas 100 MB untuk kompatibilitas GitHub biasa.
-- Untuk cache CDN, gunakan path `@main` untuk aset terbaru atau tag rilis untuk
-  versi yang stabil.
 
 ---
 
 <div align="center">
-  <strong>Quranku Adzan CDN</strong><br>
-  Static audio assets for Quranku API
+  <strong>Quranku Adzan CDN</strong>
+  <br>
+  Public static assets for Quranku API
+  <br>
+  <a href="https://quranku.apirizz.my.id">quranku.apirizz.my.id</a>
 </div>
